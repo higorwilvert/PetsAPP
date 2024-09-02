@@ -59,6 +59,10 @@ function AddPet() {
                         <input type='text' value={petBreed} onChange={e => setPetBreed(e.target.value)} />
                     </div>
 
+                    <div>
+                        Nome pert: {petName}
+                    </div>
+
                     <button
                         style={{ marginTop: 30 }}
                         disabled={!petName || !petType || !petAge || !petBreed}

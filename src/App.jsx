@@ -1,5 +1,6 @@
 import { Suspense, lazy, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { IoPawSharp } from "react-icons/io5";
 import './App.css'
 
 const PetList = lazy(() => import('./pages/PetList'))
@@ -13,7 +14,7 @@ function App() {
     return (
         <div className='App'>
             <Router>
-                <h1>Pet shelter</h1>
+                <h1>CãoDex <IoPawSharp/></h1>
 
                 <Routes>
                     <Route
@@ -23,8 +24,7 @@ function App() {
                                 <PetList />
                             </Suspense>
                         }
-                    />
-
+                    /> 
                     <Route
                         path='/:petId'
                         element={
@@ -33,7 +33,6 @@ function App() {
                             </Suspense>
                         }
                     />
-
                     <Route
                         path='/:petId/edit'
                         element={
@@ -42,7 +41,6 @@ function App() {
                             </Suspense>
                         }
                     />
-
                     <Route
                         path='/add'
                         element={

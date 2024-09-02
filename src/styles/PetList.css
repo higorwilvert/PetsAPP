@@ -1,0 +1,17 @@
+.pet-grid {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.pet-card:hover {
+    border-color: #646cff;
+}
+
+.pet-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    text-align: center;
+}

@@ -4,29 +4,35 @@ import { useMutation } from '@apollo/client'
 import { EDIT_PET } from '../api/mutations'
 
 function EditPet({ petToEdit }) {
-    const [petName, setPetName] = useState(petToEdit?.name)
-    const [petType, setPetType] = useState(petToEdit?.type)
-    const [petAge, setPetAge] = useState(petToEdit?.age)
-    const [petBreed, setPetBreed] = useState(petToEdit?.breed)
+    const [petName, setPetName] = useState(petToEdit?.name || '')
+    const [petType, setPetType] = useState(petToEdit?.type || '')
+    const [petAge, setPetAge] = useState(petToEdit?.age || '')
+    const [petBreed, setPetBreed] = useState(petToEdit?.breed || '')
 
-    const [editPet, { loading, error, data }] = useMutation(EDIT_PET, {
-        variables: {
-            petToEdit: {
-                id: parseInt(petToEdit.id),
-                name: petName,
-                type: petType,
-                age: parseInt(petAge),
-                breed: petBreed
-            }
-        }
-    })
+    const [editPet, { loading, error, data }] = useMutation(EDIT_PET)
 
     useEffect(() => {
-        if (data && data?.editPet?.id) window.location.href = `/${data?.editPet?.id}`
+        if (data && data.editPet?.id) {
+            window.location.href = `/${data.editPet.id}`
+        }
     }, [data])
 
+    const handleSave = () => {
+        editPet({
+            variables: {
+                petToEdit: {
+                    id: parseInt(petToEdit.id),
+                    name: petName,
+                    type: petType,
+                    age: parseInt(petAge),
+                    breed: petBreed
+                }
+            }
+        })
+    }
+
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', aligniItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <h2>Edit Pet</h2>
 
             <Link to='/'>
@@ -52,18 +58,24 @@ function EditPet({ petToEdit }) {
 
                     <div style={{ display: 'flex', flexDirection: 'column', margin: 20 }}>
                         <label>Pet age</label>
-                        <input type='text' value={petAge} onChange={e => setPetAge(e.target.value)} />
+                        <input
+                            type='number'
+                            value={petAge}
+                            onChange={e => setPetAge(e.target.value)}
+                        />
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', margin: 20 }}>
+                    <div>
+                        {parseInt(petAge) === 1 ? <div style={{ display: 'flex', flexDirection: 'column', margin: 20 }}>
                         <label>Pet breed</label>
                         <input type='text' value={petBreed} onChange={e => setPetBreed(e.target.value)} />
+                    </div> : 'Não pode mudar'}
                     </div>
 
                     <button
                         style={{ marginTop: 30 }}
                         disabled={!petName || !petType || !petAge || !petBreed}
-                        onClick={() => editPet()}
+                        onClick={handleSave}
                     >
                         Save changes
                     </button>
